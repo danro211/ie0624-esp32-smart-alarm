@@ -53,3 +53,16 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# ESP-IDF
+build/
+**/build/
+managed_components/
+**/managed_components/
+sdkconfig.old
+**/sdkconfig.old
+dependencies.lock
+**/dependencies.lock
+
+# EIM / ESP-IDF installer local config
+eim_config.toml
