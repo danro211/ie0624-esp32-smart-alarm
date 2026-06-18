@@ -66,3 +66,4 @@ dependencies.lock
 
 # EIM / ESP-IDF installer local config
 eim_config.toml
+.venv/
