@@ -67,3 +67,5 @@ dependencies.lock
 # EIM / ESP-IDF installer local config
 eim_config.toml
 .venv/
+wifi_secrets.h
+**/wifi_secrets.h
