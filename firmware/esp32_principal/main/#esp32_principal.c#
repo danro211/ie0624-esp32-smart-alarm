@@ -143,16 +143,13 @@ static void generar_secuencia(secuencia_t *secuencia, dificultad_t dificultad)
 static void imprimir_secuencia(const secuencia_t *secuencia)
 {
     ESP_LOGI(TAG, "Secuencia solicitada al usuario:");
-    vTaskDelay(pdMS_TO_TICKS(100));
 
     for (int i = 0; i < secuencia->length; i++) {
         ESP_LOGI(TAG,
-                 "Gesto %d/%d: %s",
+                 "  Gesto %d/%d: %s",
                  i + 1,
                  secuencia->length,
                  gesto_a_texto(secuencia->gestos[i]));
-
-        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
@@ -192,51 +189,7 @@ static void configurar_alarma_demo_un_minuto_despues(void)
              alarma_demo.minute);
 }
 
-static void revisar_alarma_demo(struct tm *timeinfo)
-{
-    if (!alarma_demo.enabled) {
-        return;
-    }
 
-    bool coincide_dia = (alarma_demo.weekday == timeinfo->tm_wday);
-    bool coincide_hora = (alarma_demo.hour == timeinfo->tm_hour);
-    bool coincide_minuto = (alarma_demo.minute == timeinfo->tm_min);
-
-    if (!(coincide_dia && coincide_hora && coincide_minuto)) {
-        return;
-    }
-
-    if (alarma_ya_fue_disparada(timeinfo)) {
-        return;
-    }
-
-    registrar_alarma_disparada(timeinfo);
-    generar_secuencia(&secuencia_actual, alarma_demo.dificultad);
-
-    ESP_LOGI(TAG, "");
-    ESP_LOGI(TAG, "========================================");
-    vTaskDelay(pdMS_TO_TICKS(100));
-
-    ESP_LOGI(TAG, "ALARMA ACTIVADA");
-    vTaskDelay(pdMS_TO_TICKS(100));
-
-    ESP_LOGI(TAG, "Nombre: %s", alarma_demo.nombre);
-    ESP_LOGI(TAG, "Dia: %s", nombre_dia(alarma_demo.weekday));
-    ESP_LOGI(TAG, "Hora configurada: %02d:%02d",
-             alarma_demo.hour,
-             alarma_demo.minute);
-    ESP_LOGI(TAG, "Dificultad: %s",
-             dificultad_a_texto(alarma_demo.dificultad));
-
-    vTaskDelay(pdMS_TO_TICKS(100));
-
-    imprimir_secuencia(&secuencia_actual);
-
-    vTaskDelay(pdMS_TO_TICKS(100));
-
-    ESP_LOGI(TAG, "========================================");
-    ESP_LOGI(TAG, "");
-}
 
 static void imprimir_hora_actual(struct tm *timeinfo)
 {
